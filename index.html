@@ -86,17 +86,12 @@ button {
 
 <p style="color:#888; font-size:20px; margin-bottom:25px;">
     点击左侧分类选择配件 ✦ 点击图片生成贴纸 ✦ 拖拽摆放 
-</p>
-
 <p style="color:#888; font-size:20px; margin-bottom:25px;">
-    电脑端--滚动鼠标调整大小 ✦ 右键进入旋转模式 ✦ 双击删除
-    </p>
-    <p style="color:#888; font-size:20px; margin-bottom:25px;">
-    手机端--双指触控调整大小 ✦ 长按进入旋转模式 ✦ 双击删除
+    滚动鼠标调整大小 ✦ 右键进入旋转模式 ✦ 双击删除
 </p>
 
 <p style="color:#aaa; font-size:16px;">
-    （感谢 @Miki在进步老师的高清png贴图）
+    （感谢 @Miki在进步 老师的高清png贴图）
 </p>
 
 <!-- ⭐上面换脸按钮 -->
@@ -121,6 +116,7 @@ button {
 <!-- ⭐左侧 -->
 <div style="display:flex; gap:15px; align-items:flex-start;">
 
+    <!-- 按钮列 -->
     <div style="display:flex; flex-direction:column;">
         <button class="menu-btn" onclick="togglePanel('eye', this)">眼睛</button>
         <button class="menu-btn" onclick="togglePanel('mouth', this)">嘴巴</button>
@@ -129,20 +125,33 @@ button {
         <button class="menu-btn" onclick="togglePanel('acc', this)">配饰</button>
     </div>
 
+    <!-- 图片区 -->
     <div id="panel"
-         style="display:grid;grid-template-columns:repeat(2,90px);gap:10px;">
+         style="
+            display:grid;
+            grid-template-columns:repeat(2,90px);
+            gap:10px;
+         ">
     </div>
 
 </div>
 
 <!-- ⭐中间娃娃 -->
 <div id="playground"
-     style="position:relative;width:500px;height:650px;">
+     style="
+        position:relative;
+        width:500px;
+        height:650px;
+     ">
 
     <img id="doll"
          src="bodycover.png"
          width="400"
-         style="position:absolute;left:50%;transform:translateX(-50%);">
+         style="
+            position:absolute;
+            left:50%;
+            transform:translateX(-50%);
+         ">
 
 </div>
 
@@ -163,7 +172,7 @@ const accessories = {
     acc: ["cook.png","pad.png","bow.png","wings.png","earphone.png","sunglass.png"]
 };
 
-function togglePanel(type, btn){
+function togglePanel(type, btn) {
 
     const panel = document.getElementById("panel");
     panel.innerHTML = "";
@@ -176,6 +185,12 @@ function togglePanel(type, btn){
 
     accessories[type].forEach(src => {
 
+        // ⭐外层容器（用来放图片 + 文字）
+        const box = document.createElement("div");
+        box.style.display = "flex";
+        box.style.flexDirection = "column";
+        box.style.alignItems = "center";
+
         const img = document.createElement("img");
 
         img.src = src;
@@ -185,14 +200,31 @@ function togglePanel(type, btn){
         img.style.border = "1px solid #ddd";
         img.style.borderRadius = "12px";
         img.style.padding = "5px";
+        img.style.boxShadow = "0 2px 6px rgba(0,0,0,0.08)";
 
         img.onclick = () => createAccessory(src, type);
 
-        panel.appendChild(img);
+        box.appendChild(img);
+
+        // ⭐只在“配饰 acc”加说明文字
+        if (type === "acc") {
+
+            const tip = document.createElement("div");
+            tip.innerText = "右键按住配饰拖动可旋转";
+            tip.style.fontSize = "10px";
+            tip.style.color = "#888";
+            tip.style.textAlign = "center";
+            tip.style.marginTop = "6px";
+            tip.style.lineHeight = "1.2";
+
+            box.appendChild(tip);
+        }
+
+        panel.appendChild(box);
     });
 }
 
-function createAccessory(src, type){
+function createAccessory(src, type) {
 
     const img = document.createElement("img");
 
@@ -210,48 +242,51 @@ function createAccessory(src, type){
     img.style.transformOrigin = "center center";
 
     /* ⭐滚轮缩放 */
-    img.addEventListener("wheel", function(e){
+    img.addEventListener("wheel", function(e) {
         e.preventDefault();
+
         size += (e.deltaY < 0 ? 10 : -10);
-        if(size < 20) size = 20;
+        if (size < 20) size = 20;
+
         img.style.width = size + "px";
 
-        if(type === "acc"){
+        // 旋转也要重新应用（避免被覆盖）
+        if (type === "acc") {
             img.style.transform = `rotate(${rotation}deg)`;
         }
     });
 
-    /* ⭐右键旋转（配饰） */
-    img.addEventListener("contextmenu", function(e){
-        if(type !== "acc") return;
+    /* ⭐右键旋转（只限配饰） */
+    img.addEventListener("contextmenu", function(e) {
+        if (type !== "acc") return;
 
-        e.preventDefault();
+        e.preventDefault(); // 阻止右键菜单
+
         let startX = e.clientX;
 
-        function move(ev){
-            rotation = (ev.clientX - startX) * 0.5;
+        function onMove(ev) {
+            let diff = ev.clientX - startX;
+            rotation = diff * 0.5; // 旋转灵敏度
             img.style.transform = `rotate(${rotation}deg)`;
         }
 
-        function up(){
-            document.removeEventListener("mousemove", move);
-            document.removeEventListener("mouseup", up);
+        function onUp() {
+            document.removeEventListener("mousemove", onMove);
+            document.removeEventListener("mouseup", onUp);
         }
 
-        document.addEventListener("mousemove", move);
-        document.addEventListener("mouseup", up);
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("mouseup", onUp);
     });
 
+    /* ⭐双击删除 */
     img.addEventListener("dblclick", () => img.remove());
 
     makeDraggable(img);
-    enableTouch(img, type);   // ⭐新增手机支持
 
     document.getElementById("playground").appendChild(img);
 }
-
-/* ⭐鼠标拖拽 */
-function makeDraggable(el){
+function makeDraggable(el) {
 
     let dragging = false;
     let ox = 0, oy = 0;
@@ -264,88 +299,12 @@ function makeDraggable(el){
     });
 
     document.addEventListener("mousemove", e => {
-        if(!dragging) return;
+        if (!dragging) return;
         el.style.left = (e.clientX - ox) + "px";
         el.style.top = (e.clientY - oy) + "px";
     });
 
     document.addEventListener("mouseup", () => dragging = false);
-}
-
-/* ⭐手机触控（新增） */
-function enableTouch(el, type){
-
-    let startDist = 0;
-    let startSize = 100;
-
-    let startAngle = 0;
-    let rotation = 0;
-
-    let dragging = false;
-    let ox = 0, oy = 0;
-
-    function dist(t1,t2){
-        return Math.hypot(
-            t1.clientX - t2.clientX,
-            t1.clientY - t2.clientY
-        );
-    }
-
-    function angle(t1,t2){
-        return Math.atan2(
-            t2.clientY - t1.clientY,
-            t2.clientX - t1.clientX
-        ) * 180 / Math.PI;
-    }
-
-    el.addEventListener("touchstart", e => {
-
-        const t = e.touches;
-
-        if(t.length === 1){
-            dragging = true;
-            ox = t[0].clientX - el.offsetLeft;
-            oy = t[0].clientY - el.offsetTop;
-        }
-
-        if(t.length === 2){
-            startDist = dist(t[0],t[1]);
-            startAngle = angle(t[0],t[1]);
-        }
-
-        el.style.zIndex = Date.now();
-    });
-
-    el.addEventListener("touchmove", e => {
-
-        const t = e.touches;
-
-        if(t.length === 1 && dragging){
-            el.style.left = (t[0].clientX - ox) + "px";
-            el.style.top = (t[0].clientY - oy) + "px";
-        }
-
-        if(t.length === 2){
-
-            e.preventDefault();
-
-            let d = dist(t[0],t[1]);
-            let scale = d / startDist;
-
-            let ang = angle(t[0],t[1]);
-            rotation = startAngle - ang;
-
-            el.style.width = (100 * scale) + "px";
-
-            if(type === "acc"){
-                el.style.transform = `rotate(${rotation}deg)`;
-            }
-        }
-    });
-
-    el.addEventListener("touchend", () => {
-        dragging = false;
-    });
 }
 
 </script>
