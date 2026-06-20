@@ -26,7 +26,7 @@
         margin-top:20px;
     ">
 
-        <!-- 左侧配件栏 -->
+        <!-- 配件栏 -->
         <div style="
             display:flex;
             flex-direction:column;
@@ -81,6 +81,32 @@
             img.style.top = "150px";
             img.style.width = "100px";
             img.style.cursor = "move";
+            img.style.userSelect = "none";
+
+            let currentSize = 100;
+
+            /* 滚轮缩放 */
+            img.addEventListener("wheel", function(e) {
+
+                e.preventDefault();
+
+                if (e.deltaY < 0) {
+                    currentSize += 10;
+                } else {
+                    currentSize -= 10;
+                }
+
+                if (currentSize < 20) {
+                    currentSize = 20;
+                }
+
+                img.style.width = currentSize + "px";
+            });
+
+            /* 双击删除 */
+            img.addEventListener("dblclick", function() {
+                img.remove();
+            });
 
             makeDraggable(img);
 
@@ -92,25 +118,20 @@
         function makeDraggable(element) {
 
             let isDragging = false;
-            let offsetX;
-            let offsetY;
+            let offsetX = 0;
+            let offsetY = 0;
 
-            element.onmousedown = function(e) {
+            element.addEventListener("mousedown", function(e) {
 
                 isDragging = true;
 
-                offsetX =
-                    e.clientX -
-                    element.offsetLeft;
+                offsetX = e.clientX - element.offsetLeft;
+                offsetY = e.clientY - element.offsetTop;
 
-                offsetY =
-                    e.clientY -
-                    element.offsetTop;
-            };
+                element.style.zIndex = Date.now();
+            });
 
-            document.addEventListener("mousemove", move);
-
-            function move(e) {
+            document.addEventListener("mousemove", function(e) {
 
                 if (!isDragging) return;
 
@@ -119,11 +140,11 @@
 
                 element.style.top =
                     (e.clientY - offsetY) + "px";
-            }
+            });
 
-            document.onmouseup = function() {
+            document.addEventListener("mouseup", function() {
                 isDragging = false;
-            };
+            });
         }
 
     </script>
