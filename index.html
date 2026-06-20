@@ -217,33 +217,51 @@ function createAccessory(src, type) {
 
     img.style.transformOrigin = "center center";
 
-    // ⭐滚轮事件
+    /* ⭐滚轮缩放 */
     img.addEventListener("wheel", function(e) {
         e.preventDefault();
-
-        // ⭐只有“配饰 acc”才允许旋转
-        if (type === "acc" && e.shiftKey) {
-            rotation += (e.deltaY < 0 ? 10 : -10);
-        }
 
         size += (e.deltaY < 0 ? 10 : -10);
         if (size < 20) size = 20;
 
         img.style.width = size + "px";
 
-        // ⭐只在配饰上应用旋转
+        // 旋转也要重新应用（避免被覆盖）
         if (type === "acc") {
             img.style.transform = `rotate(${rotation}deg)`;
         }
     });
 
+    /* ⭐右键旋转（只限配饰） */
+    img.addEventListener("contextmenu", function(e) {
+        if (type !== "acc") return;
+
+        e.preventDefault(); // 阻止右键菜单
+
+        let startX = e.clientX;
+
+        function onMove(ev) {
+            let diff = ev.clientX - startX;
+            rotation = diff * 0.5; // 旋转灵敏度
+            img.style.transform = `rotate(${rotation}deg)`;
+        }
+
+        function onUp() {
+            document.removeEventListener("mousemove", onMove);
+            document.removeEventListener("mouseup", onUp);
+        }
+
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("mouseup", onUp);
+    });
+
+    /* ⭐双击删除 */
     img.addEventListener("dblclick", () => img.remove());
 
     makeDraggable(img);
 
     document.getElementById("playground").appendChild(img);
 }
-
 function makeDraggable(el) {
 
     let dragging = false;
