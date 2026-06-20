@@ -194,13 +194,13 @@ function togglePanel(type, btn) {
         img.style.padding = "5px";
         img.style.boxShadow = "0 2px 6px rgba(0,0,0,0.08)";
 
-        img.onclick = () => createAccessory(src);
+        img.onclick = () => createAccessory(src, type);
 
         panel.appendChild(img);
     });
 }
 
-function createAccessory(src) {
+function createAccessory(src, type) {
 
     const img = document.createElement("img");
 
@@ -213,12 +213,28 @@ function createAccessory(src) {
     img.style.userSelect = "none";
 
     let size = 100;
+    let rotation = 0;
 
+    img.style.transformOrigin = "center center";
+
+    // ⭐滚轮事件
     img.addEventListener("wheel", function(e) {
         e.preventDefault();
+
+        // ⭐只有“配饰 acc”才允许旋转
+        if (type === "acc" && e.shiftKey) {
+            rotation += (e.deltaY < 0 ? 10 : -10);
+        }
+
         size += (e.deltaY < 0 ? 10 : -10);
         if (size < 20) size = 20;
+
         img.style.width = size + "px";
+
+        // ⭐只在配饰上应用旋转
+        if (type === "acc") {
+            img.style.transform = `rotate(${rotation}deg)`;
+        }
     });
 
     img.addEventListener("dblclick", () => img.remove());
