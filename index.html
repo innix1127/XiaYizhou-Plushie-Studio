@@ -1,31 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>夏以昼生日玩偶</title>
+
 <style>
 
 /* =========================
-   ⭐统一按钮基础
    ⭐统一按钮基础（彻底去冲突）
 ========================= */
 button {
-all: unset;
-@@ -15,7 +15,7 @@
+    all: unset;
+    display: inline-block;
+    cursor: pointer;
 }
 
 /* =========================
-   ⭐上面换脸按钮
    ⭐上面换脸按钮（紫底金字）
 ========================= */
 .face-btn {
-width: 130px;
-@@ -41,7 +41,7 @@
+    width: 130px;
+    padding: 14px 10px;
+    margin: 6px 0;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    border-radius: 14px;
+
+    background: #613DAA;
+    color: #DAA613;
+
+    text-align: center;
+
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.face-btn:hover {
+    transform: scale(1.06);
 }
 
 /* =========================
-   ⭐分类按钮
    ⭐下面分类按钮（金底紫字）
 ========================= */
 .menu-btn {
-width: 130px;
-@@ -62,9 +62,16 @@
-box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    width: 130px;
+    padding: 14px 10px;
+    margin: 6px 0;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    border-radius: 14px;
+
+    background: #DAA613;
+    color: #613DAA;
+
+    text-align: center;
+
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .menu-btn:hover {
@@ -34,18 +68,18 @@ box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 
 /* ⭐选中高亮 */
 .menu-btn.active {
-background: #613DAA;
-color: #DAA613;
+    background: #613DAA;
+    color: #DAA613;
     box-shadow: 0 0 12px rgba(97, 61, 170, 0.6);
     transform: scale(1.06);
 }
 
 </style>
-@@ -73,12 +80,23 @@
+
+</head>
 
 <body style="background:#fff8f3; text-align:center;">
 
-<h1>🍎 阿昼的 绒绒 衣帽间 🍎</h1>
 <h1 style="margin-top:40px;">
     🍎 阿昼的 绒绒 衣帽间 🍎
 </h1>
@@ -54,8 +88,6 @@ color: #DAA613;
     点击左侧分类选择配件 ✦ 点击图片生成贴纸 ✦ 拖拽摆放 
 </p>
 
-<p style="color:#888;font-size:18px;">
-点击左侧分类 ✦ 点击生成贴纸 ✦ 拖拽 ✦ 缩放 ✦ 删除
 <p style="color:#888; font-size:20px; margin-bottom:25px;">
     滚动鼠标可以调整大小 ✦ 双击可以删除
 </p>
@@ -66,13 +98,14 @@ color: #DAA613;
 
 <!-- ⭐上面换脸按钮 -->
 <div style="margin-bottom:20px;">
-<button class="face-btn" onclick="changeBody('body00.png')">小裸昼</button>
-<button class="face-btn" onclick="changeBody('body1.png')">微笑眼</button>
-@@ -88,163 +106,243 @@ <h1>🍎 阿昼的 绒绒 衣帽间 🍎</h1>
-<button class="face-btn" onclick="changeBody('body5.png')">困困眼</button>
+    <button class="face-btn" onclick="changeBody('body00.png')">小裸昼</button>
+    <button class="face-btn" onclick="changeBody('body1.png')">微笑眼</button>
+    <button class="face-btn" onclick="changeBody('body2.png')">眯眯眼</button>
+    <button class="face-btn" onclick="changeBody('body3.png')">英俊眼</button>
+    <button class="face-btn" onclick="changeBody('body4.png')">Wink眼</button>
+    <button class="face-btn" onclick="changeBody('body5.png')">困困眼</button>
 </div>
 
-<div style="display:flex;justify-content:center;gap:60px;">
 <div style="
     display:flex;
     justify-content:center;
@@ -97,51 +130,29 @@ color: #DAA613;
          style="display:grid;grid-template-columns:repeat(2,90px);gap:10px;">
     </div>
 
-<!-- 左侧 -->
-<div style="display:flex;gap:15px;">
-
-<div style="display:flex;flex-direction:column;">
-<button class="menu-btn" onclick="togglePanel('eye',this)">眼睛</button>
-<button class="menu-btn" onclick="togglePanel('mouth',this)">嘴巴</button>
-<button class="menu-btn" onclick="togglePanel('cloth',this)">衣服</button>
-<button class="menu-btn" onclick="togglePanel('hair',this)">头饰</button>
-<button class="menu-btn" onclick="togglePanel('acc',this)">配饰</button>
 </div>
 
-<div id="panel" style="display:grid;grid-template-columns:repeat(2,90px);gap:10px;"></div>
 <!-- ⭐中间娃娃 -->
 <div id="playground"
      style="position:relative;width:500px;height:650px;">
 
-</div>
     <img id="doll"
          src="bodycover.png"
          width="400"
          style="position:absolute;left:50%;transform:translateX(-50%);">
 
-<!-- 中间 -->
-<div id="playground" style="position:relative;width:500px;height:650px;">
-<img id="doll" src="bodycover.png" width="400"
-style="position:absolute;left:50%;transform:translateX(-50%);">
 </div>
 
 </div>
 
 <script>
 
-function changeBody(img){
-document.getElementById("doll").src = img;
 function changeBody(image) {
     document.getElementById("doll").src = image;
 }
 
 /* ⭐素材库 */
 const accessories = {
-eye:["eye1.png","eye2.png","eye3.png","eye4.png","eye5.png"],
-mouth:["mouth1.png","mouth2.png","mouth3.png","mouth4.png","mouth5.png","nose.png"],
-cloth:["originalcloth.png","flycloth.png","suitcloth.png","applecloth.png","toastcloth.png"],
-hair:["catear.png","chef.png","topknot.png","birthday.png","coconut.png","plane.png","leopard.png"],
-acc:["cook.png","pad.png","bow.png","wings.png","earphone.png","sunglass.png"]
     eye: ["eye1.png","eye2.png","eye3.png","eye4.png","eye5.png"],
     mouth: ["mouth1.png","mouth2.png","mouth3.png","mouth4.png","mouth5.png","nose.png"],
     cloth: ["originalcloth.png","flycloth.png","suitcloth.png","applecloth.png","toastcloth.png"],
@@ -149,35 +160,21 @@ acc:["cook.png","pad.png","bow.png","wings.png","earphone.png","sunglass.png"]
     acc: ["cook.png","pad.png","bow.png","wings.png","earphone.png","sunglass.png"]
 };
 
-function togglePanel(type,btn){
 function togglePanel(type, btn){
 
-const panel=document.getElementById("panel");
-panel.innerHTML="";
     const panel = document.getElementById("panel");
     panel.innerHTML = "";
 
-document.querySelectorAll(".menu-btn").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
     document.querySelectorAll(".menu-btn").forEach(b => {
         b.classList.remove("active");
     });
 
-accessories[type].forEach(src=>{
     btn.classList.add("active");
 
-const img=document.createElement("img");
     accessories[type].forEach(src => {
 
-img.src=src;
-img.style.width="80px";
-img.style.cursor="pointer";
-img.style.background="white";
-img.style.border="1px solid #ddd";
-img.style.borderRadius="12px";
         const img = document.createElement("img");
 
-img.onclick=()=>createAccessory(src,type);
         img.src = src;
         img.style.width = "80px";
         img.style.cursor = "pointer";
@@ -186,27 +183,16 @@ img.onclick=()=>createAccessory(src,type);
         img.style.borderRadius = "12px";
         img.style.padding = "5px";
 
-panel.appendChild(img);
-});
         img.onclick = () => createAccessory(src, type);
 
         panel.appendChild(img);
     });
 }
 
-function createAccessory(src,type){
 function createAccessory(src, type){
 
-const img=document.createElement("img");
     const img = document.createElement("img");
 
-img.src=src;
-img.style.position="absolute";
-img.style.left="180px";
-img.style.top="150px";
-img.style.width="100px";
-img.style.cursor="move";
-img.style.touchAction="none";
     img.src = src;
     img.style.position = "absolute";
     img.style.left = "180px";
@@ -215,20 +201,11 @@ img.style.touchAction="none";
     img.style.cursor = "move";
     img.style.userSelect = "none";
 
-let size=100;
-let rotation=0;
     let size = 100;
     let rotation = 0;
 
-img.style.transformOrigin="center";
     img.style.transformOrigin = "center center";
 
-img.addEventListener("wheel",e=>{
-e.preventDefault();
-size+=e.deltaY<0?10:-10;
-if(size<20)size=20;
-img.style.width=size+"px";
-});
     /* ⭐滚轮缩放 */
     img.addEventListener("wheel", function(e){
         e.preventDefault();
@@ -236,27 +213,15 @@ img.style.width=size+"px";
         if(size < 20) size = 20;
         img.style.width = size + "px";
 
-img.addEventListener("contextmenu",e=>{
-if(type!=="acc")return;
-e.preventDefault();
-let startX=e.clientX;
         if(type === "acc"){
             img.style.transform = `rotate(${rotation}deg)`;
         }
     });
 
-function move(ev){
-rotation=(ev.clientX-startX)*0.5;
-img.style.transform=`rotate(${rotation}deg)`;
-}
     /* ⭐右键旋转（配饰） */
     img.addEventListener("contextmenu", function(e){
         if(type !== "acc") return;
 
-function up(){
-document.removeEventListener("mousemove",move);
-document.removeEventListener("mouseup",up);
-}
         e.preventDefault();
         let startX = e.clientX;
 
@@ -270,43 +235,20 @@ document.removeEventListener("mouseup",up);
             document.removeEventListener("mouseup", up);
         }
 
-document.addEventListener("mousemove",move);
-document.addEventListener("mouseup",up);
-});
         document.addEventListener("mousemove", move);
         document.addEventListener("mouseup", up);
     });
 
-img.addEventListener("dblclick",()=>img.remove());
     img.addEventListener("dblclick", () => img.remove());
 
-makeDraggable(img);
-enableTouch(img);
     makeDraggable(img);
     enableTouch(img, type);   // ⭐新增手机支持
 
-document.getElementById("playground").appendChild(img);
     document.getElementById("playground").appendChild(img);
 }
 
 /* ⭐鼠标拖拽 */
 function makeDraggable(el){
-let drag=false,ox=0,oy=0;
-
-el.addEventListener("mousedown",e=>{
-drag=true;
-ox=e.clientX-el.offsetLeft;
-oy=e.clientY-el.offsetTop;
-el.style.zIndex=Date.now();
-});
-
-document.addEventListener("mousemove",e=>{
-if(!drag)return;
-el.style.left=(e.clientX-ox)+"px";
-el.style.top=(e.clientY-oy)+"px";
-});
-
-document.addEventListener("mouseup",()=>drag=false);
 
     let dragging = false;
     let ox = 0, oy = 0;
@@ -327,8 +269,6 @@ document.addEventListener("mouseup",()=>drag=false);
     document.addEventListener("mouseup", () => dragging = false);
 }
 
-/* ⭐手机拖拽 */
-function enableTouch(el){
 /* ⭐手机触控（新增） */
 function enableTouch(el, type){
 
@@ -389,35 +329,23 @@ function enableTouch(el, type){
             let d = dist(t[0],t[1]);
             let scale = d / startDist;
 
-let drag=false,ox=0,oy=0;
             let ang = angle(t[0],t[1]);
             rotation = startAngle - ang;
 
-el.addEventListener("touchstart",e=>{
-const t=e.touches[0];
-drag=true;
-ox=t.clientX-el.offsetLeft;
-oy=t.clientY-el.offsetTop;
-el.style.zIndex=Date.now();
-});
             el.style.width = (100 * scale) + "px";
 
-el.addEventListener("touchmove",e=>{
-if(!drag)return;
-const t=e.touches[0];
-el.style.left=(t.clientX-ox)+"px";
-el.style.top=(t.clientY-oy)+"px";
-});
             if(type === "acc"){
                 el.style.transform = `rotate(${rotation}deg)`;
             }
         }
     });
 
-el.addEventListener("touchend",()=>drag=false);
     el.addEventListener("touchend", () => {
         dragging = false;
     });
 }
 
 </script>
+
+</body>
+</html>
