@@ -4,8 +4,11 @@
     <title>夏以昼生日玩偶</title>
 
 <style>
-/* ⭐整体按钮样式 */
-button {
+
+/* =========================
+   ⭐上面换脸按钮（紫底金字）
+========================= */
+.face-btn {
     width: 130px;
     padding: 14px 10px;
     margin: 6px 0;
@@ -16,8 +19,8 @@ button {
     border-radius: 14px;
     border: none;
 
-    background: #613DAA;   /* 你指定背景色 */
-    color: #DAA613;        /* 你指定字体色 */
+    background: #613DAA;
+    color: #DAA613;
 
     cursor: pointer;
     transition: all 0.2s ease;
@@ -25,12 +28,46 @@ button {
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
-/* ⭐悬停效果 */
-button:hover {
+.face-btn:hover {
     transform: scale(1.06);
     filter: brightness(1.05);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
+
+/* =========================
+   ⭐下面分类按钮（金底紫字）
+========================= */
+.menu-btn {
+    width: 130px;
+    padding: 14px 10px;
+    margin: 6px 0;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    border-radius: 14px;
+    border: none;
+
+    background: #DAA613;
+    color: #613DAA;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.menu-btn:hover {
+    transform: scale(1.05);
+}
+
+/* ⭐选中高亮 */
+.menu-btn.active {
+    background: #613DAA;
+    color: #DAA613;
+    box-shadow: 0 0 12px rgba(97, 61, 170, 0.6);
+    transform: scale(1.06);
+}
+
 </style>
 
 </head>
@@ -41,25 +78,22 @@ button:hover {
     🍎 阿昼的 绒绒 衣帽间 🍎
 </h1>
 
-<p style="
-    color:#888;
-    font-size:16px;
-    margin-bottom:25px;
-">
-<p>
+<p style="color:#888; font-size:16px; margin-bottom:25px;">
     点击左侧分类选择配件 ✦ 点击图片生成贴纸 ✦ 拖拽摆放 ✦ 滚轮缩放 ✦ 双击删除
-    <br>
+</p>
+
+<p style="color:#aaa; font-size:14px;">
     （感谢 Miki 在进步老师的高清 png）
 </p>
 
-<!-- 换脸按钮 -->
+<!-- ⭐上面换脸按钮 -->
 <div style="margin-bottom:20px;">
-    <button onclick="changeBody('body00.png')">小裸昼</button>
-    <button onclick="changeBody('body1.png')">微笑眼</button>
-    <button onclick="changeBody('body2.png')">眯眯眼</button>
-    <button onclick="changeBody('body3.png')">英俊眼</button>
-    <button onclick="changeBody('body4.png')">Wink眼</button>
-    <button onclick="changeBody('body5.png')">困困眼</button>
+    <button class="face-btn" onclick="changeBody('body00.png')">小裸昼</button>
+    <button class="face-btn" onclick="changeBody('body1.png')">微笑眼</button>
+    <button class="face-btn" onclick="changeBody('body2.png')">眯眯眼</button>
+    <button class="face-btn" onclick="changeBody('body3.png')">英俊眼</button>
+    <button class="face-btn" onclick="changeBody('body4.png')">Wink眼</button>
+    <button class="face-btn" onclick="changeBody('body5.png')">困困眼</button>
 </div>
 
 <div style="
@@ -71,7 +105,7 @@ button:hover {
     transform: translateX(-40px);
 ">
 
-<!-- ⭐左侧分类 -->
+<!-- ⭐左侧 -->
 <div style="display:flex; gap:15px; align-items:flex-start;">
 
     <!-- 按钮列 -->
@@ -83,7 +117,7 @@ button:hover {
         <button class="menu-btn" onclick="togglePanel('acc', this)">配饰</button>
     </div>
 
-    <!-- 图片展示区 -->
+    <!-- 图片区 -->
     <div id="panel"
          style="
             display:grid;
@@ -124,28 +158,29 @@ function changeBody(image) {
 /* ⭐素材库 */
 const accessories = {
     eye: ["eye1.png","eye2.png","eye3.png","eye4.png","eye5.png"],
-
     mouth: ["mouth1.png","mouth2.png","mouth3.png","mouth4.png","mouth5.png","nose.png"],
-
     cloth: ["originalcloth.png","flycloth.png","suitcloth.png","applecloth.png","toastcloth.png"],
-
     hair: ["catear.png","chef.png","topknot.png","birthday.png","coconut.png","plane.png","leopard.png"],
-
     acc: ["pad.png","bow.png","cook.png","wings.png","earphone.png","sunglass.png"]
 };
 
-/* ⭐切换分类 */
-function togglePanel(type) {
+/* ⭐切换分类 + 高亮 */
+function togglePanel(type, btn) {
 
     const panel = document.getElementById("panel");
     panel.innerHTML = "";
+
+    document.querySelectorAll(".menu-btn").forEach(b => {
+        b.classList.remove("active");
+    });
+
+    btn.classList.add("active");
 
     accessories[type].forEach(src => {
 
         const img = document.createElement("img");
 
         img.src = src;
-
         img.style.width = "80px";
         img.style.cursor = "pointer";
         img.style.background = "white";
@@ -160,13 +195,12 @@ function togglePanel(type) {
     });
 }
 
-/* ⭐创建贴纸 */
+/* ⭐贴纸 */
 function createAccessory(src) {
 
     const img = document.createElement("img");
 
     img.src = src;
-
     img.style.position = "absolute";
     img.style.left = "180px";
     img.style.top = "150px";
@@ -174,22 +208,16 @@ function createAccessory(src) {
     img.style.cursor = "move";
     img.style.userSelect = "none";
 
-    let currentSize = 100;
+    let size = 100;
 
     img.addEventListener("wheel", function(e) {
         e.preventDefault();
-
-        if (e.deltaY < 0) currentSize += 10;
-        else currentSize -= 10;
-
-        if (currentSize < 20) currentSize = 20;
-
-        img.style.width = currentSize + "px";
+        size += (e.deltaY < 0 ? 10 : -10);
+        if (size < 20) size = 20;
+        img.style.width = size + "px";
     });
 
-    img.addEventListener("dblclick", function() {
-        img.remove();
-    });
+    img.addEventListener("dblclick", () => img.remove());
 
     makeDraggable(img);
 
@@ -197,37 +225,32 @@ function createAccessory(src) {
 }
 
 /* ⭐拖拽 */
-function makeDraggable(element) {
+function makeDraggable(el) {
 
-    let isDragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
+    let dragging = false;
+    let ox = 0, oy = 0;
 
-    element.addEventListener("mousedown", function(e) {
-
-        isDragging = true;
-
-        offsetX = e.clientX - element.offsetLeft;
-        offsetY = e.clientY - element.offsetTop;
-
-        element.style.zIndex = Date.now();
+    el.addEventListener("mousedown", e => {
+        dragging = true;
+        ox = e.clientX - el.offsetLeft;
+        oy = e.clientY - el.offsetTop;
+        el.style.zIndex = Date.now();
     });
 
-    document.addEventListener("mousemove", function(e) {
-
-        if (!isDragging) return;
-
-        element.style.left = (e.clientX - offsetX) + "px";
-        element.style.top = (e.clientY - offsetY) + "px";
+    document.addEventListener("mousemove", e => {
+        if (!dragging) return;
+        el.style.left = (e.clientX - ox) + "px";
+        el.style.top = (e.clientY - oy) + "px";
     });
 
-    document.addEventListener("mouseup", function() {
-        isDragging = false;
-    });
+    document.addEventListener("mouseup", () => dragging = false);
 }
 
-/* ⭐默认打开眼睛 */
-togglePanel("eye");
+/* ⭐默认 */
+window.onload = () => {
+    const first = document.querySelector(".menu-btn");
+    if (first) togglePanel("eye", first);
+};
 
 </script>
 
