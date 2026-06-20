@@ -6,6 +6,15 @@
 <style>
 
 /* =========================
+   ⭐统一按钮基础（彻底去冲突）
+========================= */
+button {
+    all: unset;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* =========================
    ⭐上面换脸按钮（紫底金字）
 ========================= */
 .face-btn {
@@ -17,20 +26,18 @@
     font-weight: 700;
 
     border-radius: 14px;
-    border: none;
 
     background: #613DAA;
     color: #DAA613;
 
-    cursor: pointer;
-    transition: all 0.2s ease;
+    text-align: center;
 
+    transition: all 0.2s ease;
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .face-btn:hover {
     transform: scale(1.06);
-    filter: brightness(1.05);
 }
 
 /* =========================
@@ -45,14 +52,13 @@
     font-weight: 700;
 
     border-radius: 14px;
-    border: none;
 
     background: #DAA613;
     color: #613DAA;
 
-    cursor: pointer;
-    transition: all 0.2s ease;
+    text-align: center;
 
+    transition: all 0.2s ease;
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
@@ -243,6 +249,7 @@ function makeDraggable(el) {
     document.addEventListener("mouseup", () => dragging = false);
 }
 
+/* ⭐默认打开 */
 window.onload = () => {
     const first = document.querySelector(".menu-btn");
     if (first) togglePanel("eye", first);
