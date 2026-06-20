@@ -18,12 +18,114 @@
         <button onclick="changeBody('body5.png')">困困眼</button>
     </div>
 
-    <img id="doll" src="body1.png" width="400" alt="奇迹小昼">
+    <div style="
+        display:flex;
+        justify-content:center;
+        align-items:flex-start;
+        gap:40px;
+        margin-top:20px;
+    ">
+
+        <!-- 左侧配件栏 -->
+        <div style="
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+        ">
+            <button onclick="createAccessory('apple.png')">🍎 苹果</button>
+            <button onclick="createAccessory('catear.png')">🐱 猫耳</button>
+            <button onclick="createAccessory('earphone.png')">🎧 耳机</button>
+            <button onclick="createAccessory('hat1.png')">🎩 帽子</button>
+            <button onclick="createAccessory('mouth1.png')">👄 嘴巴</button>
+            <button onclick="createAccessory('nose.png')">👃 鼻子</button>
+        </div>
+
+        <!-- 娃娃区域 -->
+        <div id="playground"
+             style="
+                position:relative;
+                width:500px;
+                height:650px;
+             ">
+
+            <img
+                id="doll"
+                src="body1.png"
+                width="400"
+                alt="奇迹小昼"
+                style="
+                    position:absolute;
+                    left:50%;
+                    transform:translateX(-50%);
+                "
+            >
+
+        </div>
+
+    </div>
 
     <script>
+
         function changeBody(image) {
             document.getElementById("doll").src = image;
         }
+
+        function createAccessory(src) {
+
+            const img = document.createElement("img");
+
+            img.src = src;
+
+            img.style.position = "absolute";
+            img.style.left = "180px";
+            img.style.top = "150px";
+            img.style.width = "100px";
+            img.style.cursor = "move";
+
+            makeDraggable(img);
+
+            document
+                .getElementById("playground")
+                .appendChild(img);
+        }
+
+        function makeDraggable(element) {
+
+            let isDragging = false;
+            let offsetX;
+            let offsetY;
+
+            element.onmousedown = function(e) {
+
+                isDragging = true;
+
+                offsetX =
+                    e.clientX -
+                    element.offsetLeft;
+
+                offsetY =
+                    e.clientY -
+                    element.offsetTop;
+            };
+
+            document.addEventListener("mousemove", move);
+
+            function move(e) {
+
+                if (!isDragging) return;
+
+                element.style.left =
+                    (e.clientX - offsetX) + "px";
+
+                element.style.top =
+                    (e.clientY - offsetY) + "px";
+            }
+
+            document.onmouseup = function() {
+                isDragging = false;
+            };
+        }
+
     </script>
 
 </body>
