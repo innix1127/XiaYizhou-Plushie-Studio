@@ -35,18 +35,85 @@
     ">
 
         <!-- 配件栏 -->
-        <div style="
-            display:flex;
-            flex-direction:column;
-            gap:10px;
-        ">
-            <button onclick="createAccessory('apple.png')">🍎 苹果</button>
-            <button onclick="createAccessory('catear.png')">🐱 猫耳</button>
-            <button onclick="createAccessory('earphone.png')">🎧 耳机</button>
-            <button onclick="createAccessory('hat1.png')">🎩 帽子</button>
-            <button onclick="createAccessory('mouth1.png')">👄 嘴巴</button>
-            <button onclick="createAccessory('nose.png')">👃 鼻子</button>
-        </div>
+        <!-- 配件栏 -->
+<div style="
+    display:grid;
+    grid-template-columns:repeat(2,90px);
+    gap:12px;
+">
+
+    <img src="apple.png"
+         onclick="createAccessory('apple.png')"
+         style="
+            width:80px;
+            cursor:pointer;
+            background:white;
+            border:1px solid #ddd;
+            border-radius:12px;
+            padding:5px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.08);
+         ">
+
+    <img src="catear.png"
+         onclick="createAccessory('catear.png')"
+         style="
+            width:80px;
+            cursor:pointer;
+            background:white;
+            border:1px solid #ddd;
+            border-radius:12px;
+            padding:5px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.08);
+         ">
+
+    <img src="earphone.png"
+         onclick="createAccessory('earphone.png')"
+         style="
+            width:80px;
+            cursor:pointer;
+            background:white;
+            border:1px solid #ddd;
+            border-radius:12px;
+            padding:5px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.08);
+         ">
+
+    <img src="hat1.png"
+         onclick="createAccessory('hat1.png')"
+         style="
+            width:80px;
+            cursor:pointer;
+            background:white;
+            border:1px solid #ddd;
+            border-radius:12px;
+            padding:5px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.08);
+         ">
+
+    <img src="mouth1.png"
+         onclick="createAccessory('mouth1.png')"
+         style="
+            width:80px;
+            cursor:pointer;
+            background:white;
+            border:1px solid #ddd;
+            border-radius:12px;
+            padding:5px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.08);
+         ">
+
+    <img src="nose.png"
+         onclick="createAccessory('nose.png')"
+         style="
+            width:80px;
+            cursor:pointer;
+            background:white;
+            border:1px solid #ddd;
+            border-radius:12px;
+            padding:5px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.08);
+         ">
+</div>
 
         <!-- 娃娃区域 -->
         <div id="playground"
