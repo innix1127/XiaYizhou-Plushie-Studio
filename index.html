@@ -10,7 +10,21 @@
         🍎 夏以昼 Plushie Studio 🍎
     </h1>
 
-    <img src="body1.png" width="400" alt="奇迹小昼">
+    <div style="margin-bottom:20px;">
+        <button onclick="changeBody('body1.png')">微笑眼</button>
+        <button onclick="changeBody('body2.png')">眯眯眼</button>
+        <button onclick="changeBody('body3.png')">英俊眼</button>
+        <button onclick="changeBody('body4.png')">Wink眼</button>
+        <button onclick="changeBody('body5.png')">困困眼</button>
+    </div>
+
+    <img id="doll" src="body1.png" width="400" alt="奇迹小昼">
+
+    <script>
+        function changeBody(image) {
+            document.getElementById("doll").src = image;
+        }
+    </script>
 
 </body>
 </html>
