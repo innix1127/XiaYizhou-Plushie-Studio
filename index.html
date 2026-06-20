@@ -251,8 +251,12 @@ function makeDraggable(el) {
 
 /* ⭐默认打开 */
 window.onload = () => {
-    const first = document.querySelector(".menu-btn");
-    if (first) togglePanel("eye", first);
+    const firstBtn = document.querySelector(".menu-btn");
+
+    if (firstBtn) {
+        // ❗只展开内容，不传入“选中按钮”
+        togglePanel("eye", null);
+    }
 };
 
 </script>
