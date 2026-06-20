@@ -68,17 +68,20 @@ button:hover {
 ">
 
 <!-- ⭐左侧分类 -->
-<div style="width:140px;">
+<div style="display:flex; gap:15px; align-items:flex-start;">
 
-    <button onclick="togglePanel('eye')">眼睛</button>
-    <button onclick="togglePanel('mouth')">嘴巴</button>
-    <button onclick="togglePanel('cloth')">衣服</button>
-    <button onclick="togglePanel('hair')">头饰</button>
-    <button onclick="togglePanel('acc')">配饰</button>
+    <!-- 按钮列 -->
+    <div style="display:flex; flex-direction:column;">
+        <button class="menu-btn" onclick="togglePanel('eye', this)">眼睛</button>
+        <button class="menu-btn" onclick="togglePanel('mouth', this)">嘴巴</button>
+        <button class="menu-btn" onclick="togglePanel('cloth', this)">衣服</button>
+        <button class="menu-btn" onclick="togglePanel('hair', this)">头饰</button>
+        <button class="menu-btn" onclick="togglePanel('acc', this)">配饰</button>
+    </div>
 
+    <!-- 图片展示区 -->
     <div id="panel"
          style="
-            margin-top:15px;
             display:grid;
             grid-template-columns:repeat(2,90px);
             gap:10px;
