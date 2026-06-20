@@ -67,9 +67,6 @@
     box-shadow: 0 0 12px rgba(97, 61, 170, 0.6);
     transform: scale(1.06);
 }
-    button {
-    all: unset;
-}
 
 </style>
 
@@ -167,7 +164,6 @@ const accessories = {
     acc: ["pad.png","bow.png","cook.png","wings.png","earphone.png","sunglass.png"]
 };
 
-/* ⭐切换分类 + 高亮 */
 function togglePanel(type, btn) {
 
     const panel = document.getElementById("panel");
@@ -198,7 +194,6 @@ function togglePanel(type, btn) {
     });
 }
 
-/* ⭐贴纸 */
 function createAccessory(src) {
 
     const img = document.createElement("img");
@@ -227,7 +222,6 @@ function createAccessory(src) {
     document.getElementById("playground").appendChild(img);
 }
 
-/* ⭐拖拽 */
 function makeDraggable(el) {
 
     let dragging = false;
@@ -249,7 +243,6 @@ function makeDraggable(el) {
     document.addEventListener("mouseup", () => dragging = false);
 }
 
-/* ⭐默认 */
 window.onload = () => {
     const first = document.querySelector(".menu-btn");
     if (first) togglePanel("eye", first);
