@@ -6,224 +6,197 @@
 
 <body style="background:#fff8f3; text-align:center;">
 
-    <h1 style="margin-top:40px;">
-        🍎 夏以昼 绒绒 衣帽间 🍎
-        
-    </h1>
+<h1 style="margin-top:40px;">
+    🍎 夏以昼 绒绒 衣帽间 🍎
+</h1>
 
 <p style="
     color:#888;
     font-size:16px;
     margin-bottom:25px;
 ">
-    点击左侧配件生成贴纸 ✦ 拖拽摆放 ✦ 滚动鼠标可调整大小 ✦ 双击可删除
+    点击左侧分类选择配件 ✦ 点击图片生成贴纸 ✦ 拖拽摆放 ✦ 滚轮缩放 ✦ 双击删除
 </p>
-    <div style="margin-bottom:20px;">
-        <button onclick="changeBody('body00.png')">小裸昼</button>
-        <button onclick="changeBody('body1.png')">微笑眼</button>
-        <button onclick="changeBody('body2.png')">眯眯眼</button>
-        <button onclick="changeBody('body3.png')">英俊眼</button>
-        <button onclick="changeBody('body4.png')">Wink眼</button>
-        <button onclick="changeBody('body5.png')">困困眼</button>
-    </div>
 
-    <div style="
-        display:flex;
-        justify-content:center;
-        align-items:flex-start;
-        gap:40px;
-        margin-top:20px;
-    ">
-
-        <!-- 配件栏 -->
-        <!-- 配件栏 -->
-<div style="
-    display:grid;
-    grid-template-columns:repeat(2,90px);
-    gap:12px;
-">
-
-    <img src="apple.png"
-         onclick="createAccessory('apple.png')"
-         style="
-            width:80px;
-            cursor:pointer;
-            background:white;
-            border:1px solid #ddd;
-            border-radius:12px;
-            padding:5px;
-            box-shadow:0 2px 6px rgba(0,0,0,0.08);
-         ">
-
-    <img src="catear.png"
-         onclick="createAccessory('catear.png')"
-         style="
-            width:80px;
-            cursor:pointer;
-            background:white;
-            border:1px solid #ddd;
-            border-radius:12px;
-            padding:5px;
-            box-shadow:0 2px 6px rgba(0,0,0,0.08);
-         ">
-
-    <img src="earphone.png"
-         onclick="createAccessory('earphone.png')"
-         style="
-            width:80px;
-            cursor:pointer;
-            background:white;
-            border:1px solid #ddd;
-            border-radius:12px;
-            padding:5px;
-            box-shadow:0 2px 6px rgba(0,0,0,0.08);
-         ">
-
-    <img src="hat1.png"
-         onclick="createAccessory('hat1.png')"
-         style="
-            width:80px;
-            cursor:pointer;
-            background:white;
-            border:1px solid #ddd;
-            border-radius:12px;
-            padding:5px;
-            box-shadow:0 2px 6px rgba(0,0,0,0.08);
-         ">
-
-    <img src="mouth1.png"
-         onclick="createAccessory('mouth1.png')"
-         style="
-            width:80px;
-            cursor:pointer;
-            background:white;
-            border:1px solid #ddd;
-            border-radius:12px;
-            padding:5px;
-            box-shadow:0 2px 6px rgba(0,0,0,0.08);
-         ">
-
-    <img src="nose.png"
-         onclick="createAccessory('nose.png')"
-         style="
-            width:80px;
-            cursor:pointer;
-            background:white;
-            border:1px solid #ddd;
-            border-radius:12px;
-            padding:5px;
-            box-shadow:0 2px 6px rgba(0,0,0,0.08);
-         ">
+<!-- 换脸按钮 -->
+<div style="margin-bottom:20px;">
+    <button onclick="changeBody('body00.png')">小裸昼</button>
+    <button onclick="changeBody('body1.png')">微笑眼</button>
+    <button onclick="changeBody('body2.png')">眯眯眼</button>
+    <button onclick="changeBody('body3.png')">英俊眼</button>
+    <button onclick="changeBody('body4.png')">Wink眼</button>
+    <button onclick="changeBody('body5.png')">困困眼</button>
 </div>
 
-        <!-- 娃娃区域 -->
-        <div id="playground"
-             style="
-                position:relative;
-                width:500px;
-                height:650px;
-             ">
+<div style="
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    gap:40px;
+    margin-top:20px;
+">
 
-            <img
-                id="doll"
-                src="bodycover.png"
-                width="400"
-                alt="奇迹小昼"
-                style="
-                    position:absolute;
-                    left:50%;
-                    transform:translateX(-50%);
-                "
-            >
+<!-- ⭐左侧：分类 + 展示 -->
+<div style="width:130px;">
 
-        </div>
+    <button onclick="togglePanel('eye')">眼睛</button>
+    <button onclick="togglePanel('mouth')">嘴巴</button>
+    <button onclick="togglePanel('cloth')">衣服</button>
+    <button onclick="togglePanel('hair')">头饰</button>
+    <button onclick="togglePanel('acc')">配饰</button>
 
+    <div id="panel"
+         style="
+            margin-top:15px;
+            display:grid;
+            grid-template-columns:repeat(2,90px);
+            gap:10px;
+         ">
     </div>
 
-    <script>
+</div>
 
-        function changeBody(image) {
-            document.getElementById("doll").src = image;
+<!-- ⭐中间：娃娃 -->
+<div id="playground"
+     style="
+        position:relative;
+        width:500px;
+        height:650px;
+     ">
+
+    <img id="doll"
+         src="bodycover.png"
+         width="400"
+         style="
+            position:absolute;
+            left:50%;
+            transform:translateX(-50%);
+         ">
+
+</div>
+
+</div>
+
+<script>
+
+function changeBody(image) {
+    document.getElementById("doll").src = image;
+}
+
+/* ⭐所有素材数据 */
+const accessories = {
+    eye: ["eye1.png","eye2.png","eye3.png","eye4.png","eye5.png"],
+
+    mouth: ["mouth1.png","mouth2.png","mouth3.png","mouth4.png","mouth5.png","nose.png"],
+
+    cloth: ["originalcloth.png","flycloth.png","suitcloth.png","applecloth.png","toastcloth.png"],
+
+    hair: ["catear.png","chef.png","topknot.png","birthday.png","coconut.png","plane.png","leopard.png"],
+
+    acc: ["pad.png","bow.png","cook.png","wings.png","earphone.png","sunglass.png"]
+};
+
+/* ⭐切换分类 */
+function togglePanel(type) {
+
+    const panel = document.getElementById("panel");
+    panel.innerHTML = "";
+
+    accessories[type].forEach(src => {
+
+        const img = document.createElement("img");
+
+        img.src = src;
+
+        img.style.width = "80px";
+        img.style.cursor = "pointer";
+        img.style.background = "white";
+        img.style.border = "1px solid #ddd";
+        img.style.borderRadius = "12px";
+        img.style.padding = "5px";
+        img.style.boxShadow = "0 2px 6px rgba(0,0,0,0.08)";
+
+        img.onclick = () => createAccessory(src);
+
+        panel.appendChild(img);
+    });
+}
+
+/* ⭐创建贴纸 */
+function createAccessory(src) {
+
+    const img = document.createElement("img");
+
+    img.src = src;
+
+    img.style.position = "absolute";
+    img.style.left = "180px";
+    img.style.top = "150px";
+    img.style.width = "100px";
+    img.style.cursor = "move";
+    img.style.userSelect = "none";
+
+    let currentSize = 100;
+
+    /* 滚轮缩放 */
+    img.addEventListener("wheel", function(e) {
+        e.preventDefault();
+
+        if (e.deltaY < 0) {
+            currentSize += 10;
+        } else {
+            currentSize -= 10;
         }
 
-        function createAccessory(src) {
+        if (currentSize < 20) currentSize = 20;
 
-            const img = document.createElement("img");
+        img.style.width = currentSize + "px";
+    });
 
-            img.src = src;
+    /* 双击删除 */
+    img.addEventListener("dblclick", function() {
+        img.remove();
+    });
 
-            img.style.position = "absolute";
-            img.style.left = "180px";
-            img.style.top = "150px";
-            img.style.width = "100px";
-            img.style.cursor = "move";
-            img.style.userSelect = "none";
+    makeDraggable(img);
 
-            let currentSize = 100;
+    document.getElementById("playground").appendChild(img);
+}
 
-            /* 滚轮缩放 */
-            img.addEventListener("wheel", function(e) {
+/* ⭐拖拽 */
+function makeDraggable(element) {
 
-                e.preventDefault();
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
 
-                if (e.deltaY < 0) {
-                    currentSize += 10;
-                } else {
-                    currentSize -= 10;
-                }
+    element.addEventListener("mousedown", function(e) {
 
-                if (currentSize < 20) {
-                    currentSize = 20;
-                }
+        isDragging = true;
 
-                img.style.width = currentSize + "px";
-            });
+        offsetX = e.clientX - element.offsetLeft;
+        offsetY = e.clientY - element.offsetTop;
 
-            /* 双击删除 */
-            img.addEventListener("dblclick", function() {
-                img.remove();
-            });
+        element.style.zIndex = Date.now();
+    });
 
-            makeDraggable(img);
+    document.addEventListener("mousemove", function(e) {
 
-            document
-                .getElementById("playground")
-                .appendChild(img);
-        }
+        if (!isDragging) return;
 
-        function makeDraggable(element) {
+        element.style.left = (e.clientX - offsetX) + "px";
+        element.style.top = (e.clientY - offsetY) + "px";
+    });
 
-            let isDragging = false;
-            let offsetX = 0;
-            let offsetY = 0;
+    document.addEventListener("mouseup", function() {
+        isDragging = false;
+    });
+}
 
-            element.addEventListener("mousedown", function(e) {
+/* ⭐默认打开眼睛 */
+togglePanel("eye");
 
-                isDragging = true;
-
-                offsetX = e.clientX - element.offsetLeft;
-                offsetY = e.clientY - element.offsetTop;
-
-                element.style.zIndex = Date.now();
-            });
-
-            document.addEventListener("mousemove", function(e) {
-
-                if (!isDragging) return;
-
-                element.style.left =
-                    (e.clientX - offsetX) + "px";
-
-                element.style.top =
-                    (e.clientY - offsetY) + "px";
-            });
-
-            document.addEventListener("mouseup", function() {
-                isDragging = false;
-            });
-        }
-
-    </script>
+</script>
 
 </body>
 </html>
