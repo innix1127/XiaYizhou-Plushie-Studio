@@ -272,79 +272,72 @@ function makeDraggable(el){
 /* ⭐手机触控（新增） */
 function enableTouch(el, type){
 
-    let startDist = 0;
-    let startSize = 100;
-
-    let startAngle = 0;
-    let rotation = 0;
-
     let dragging = false;
     let ox = 0, oy = 0;
 
-    function dist(t1,t2){
-        return Math.hypot(
-            t1.clientX - t2.clientX,
-            t1.clientY - t2.clientY
-        );
-    }
+    let pressTimer = null;
+    let isRotating = false;
+    let rotation = 0;
+    let startX = 0;
 
-    function angle(t1,t2){
-        return Math.atan2(
-            t2.clientY - t1.clientY,
-            t2.clientX - t1.clientX
-        ) * 180 / Math.PI;
-    }
-
+    /* ⭐触摸开始 */
     el.addEventListener("touchstart", e => {
 
         const t = e.touches;
 
         if(t.length === 1){
-            dragging = true;
-            ox = t[0].clientX - el.offsetLeft;
-            oy = t[0].clientY - el.offsetTop;
-        }
 
-        if(t.length === 2){
-            startDist = dist(t[0],t[1]);
-            startAngle = angle(t[0],t[1]);
+            const p = t[0];
+
+            startX = p.clientX;
+
+            /* ⭐长按0.5秒进入旋转 */
+            pressTimer = setTimeout(() => {
+                isRotating = true;
+            }, 500);
+
+            /* ⭐准备拖动 */
+            ox = p.clientX - el.offsetLeft;
+            oy = p.clientY - el.offsetTop;
         }
 
         el.style.zIndex = Date.now();
     });
 
+    /* ⭐触摸移动 */
     el.addEventListener("touchmove", e => {
 
         const t = e.touches;
 
-        if(t.length === 1 && dragging){
-            el.style.left = (t[0].clientX - ox) + "px";
-            el.style.top = (t[0].clientY - oy) + "px";
-        }
+        /* ⭐长按后的旋转 */
+        if(isRotating && t.length === 1){
 
-        if(t.length === 2){
-
-            e.preventDefault();
-
-            let d = dist(t[0],t[1]);
-            let scale = d / startDist;
-
-            let ang = angle(t[0],t[1]);
-            rotation = startAngle - ang;
-
-            el.style.width = (100 * scale) + "px";
+            let diff = t[0].clientX - startX;
+            rotation = diff * 0.8;
 
             if(type === "acc"){
                 el.style.transform = `rotate(${rotation}deg)`;
             }
+
+            return;
+        }
+
+        /* ⭐正常拖动 */
+        if(t.length === 1){
+
+            clearTimeout(pressTimer);
+
+            el.style.left = (t[0].clientX - ox) + "px";
+            el.style.top = (t[0].clientY - oy) + "px";
         }
     });
 
+    /* ⭐触摸结束 */
     el.addEventListener("touchend", () => {
-        dragging = false;
+        clearTimeout(pressTimer);
+        isRotating = false;
     });
 }
-
 </script>
 
 </body>
